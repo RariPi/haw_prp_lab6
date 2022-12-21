@@ -8,29 +8,9 @@
 void task_0(int argc, char *argv[]);
 void task_1(int argc, char *argv[]);
 int task_2(int argc, char *argv[]);
-int *find_int(int *arr, int arr_len, int num);
+int *find_int(int adress, int *array, int len);
 
 #define TASK 3
-
-#if TASK == 1
-int main(int argc, char *argv[])
-{
-    int task = TASK;
-    if (task == 1)
-    {
-        task_0(argc, argv);
-    }
-    else if (task == 2)
-    {
-        task_1(argc, argv);
-    }
-    else if (task == 3)
-    {
-        task_2(argc, argv);
-    }
-}
-#elif TASK == 2
-...
 
 int main(int argc, char *argv[])
 {
@@ -116,88 +96,52 @@ void task_1(int argc, char *argv[])
 
 int task_2(int argc,char *argv[])
 {
-    // Declare array of numbers
-    size_t numbers_len = 7;
-    int numbers[7] = { 1, 2, 3, 4, 5, 1, 6 };
+    int array[7] = { 1, 2, 3, 4, 5, 1, 6 };
+    int len = sizeof(array) / sizeof(int);
    
     printf("Verfügbare Werte:[");
-    for (int i = 0; i < numbers_len; i++)
+    for (int i = 0; i < len; i++)
     {
-        printf("%2d,", numbers[i]);
+        printf(" %d,", array[i]);
     }
     printf("]\n");
-
-    // Set value to be searched for
-    int num = 0;
+    int number;
     printf("Gesuchter Wert: ");
-    scanf("%d", &num);
+    scanf("%d", &number);
 
-    bool end_of_array = false;
-
-    // Pointer to an address in the array
-    int *current_ptr;
-
-    // Set current_ptr to first index/address
-    current_ptr = &(numbers[0]);
-
-    // Remaining size of array
-    size_t arr_len_from_ptr = numbers_len;
-
-    // Loop over array until end of array is reached
+    int end_of_array = 0;
+    int *rckgabe = array;
 
     do
     {
-        // Find first index/address of number "num"
-        current_ptr = find_int(current_ptr, arr_len_from_ptr, num);
+        rckgabe = find_int(number, rckgabe, len);
         
-        // Check for NULL ptr
-        // If NULL, no more integers were found
-        if (current_ptr == NULL)
+        if (rckgabe != NULL)
         {
-            // Break while loop
-            end_of_array = true;
+            printf("Gefunden:%d mit der adresse:%p", *rckgabe, &rckgabe);
+            printf("\n");
+
+            rckgabe = array;
         }
         else
         {
-            // Found another element
-            size_t pos_of_element = current_ptr - numbers;
-            printf("Gefunden:%2d an der Pos. %zu mit der Adresse: %p\n", *current_ptr, pos_of_element+1, current_ptr);
-
-            // Increment current_ptr to the next address
-            // 0 5 7 4 8 1 7 2 9 4 (size: 10)
-            //   |
-            current_ptr++;
-            // 0 5 7 4 8 1 7 2 9 4 [X X X X ...] (remaining size: 8)
-            //     |                Garbage values (outside)
-            // Start new iteration from 7, not 5
-            // Otherwise, infinite loop
-
-            // Calculate remaining array size
-            // Remaining array size is NOT 10 anymore, but 8!!!
-            size_t diff_start_current_ptr;
-
-            // Subtracting two pointers return element count (!) 
-            // and NOT byte difference
-            diff_start_current_ptr = current_ptr - numbers;
-
-            arr_len_from_ptr = numbers_len - diff_start_current_ptr;
+            end_of_array = 1;
         }
     
-    } while(!end_of_array);
+    }while(!end_of_array);
 
     return 0;
 }
 
-int *find_int(int *arr, int arr_len, int num)
+int *find_int(int number, int *array, int len)
 {
-    for(int i = 0; i < arr_len; i++)
+    for(int i = 0; i < len; i++)
     {
-        if (arr[i] == num)
+        if (array[i] == number)
         {
-            return &arr[i];
+            return &array[i];
             
         }
     }
-
     return NULL;
 }
