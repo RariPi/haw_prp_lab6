@@ -4,60 +4,23 @@
 #include <ctype.h>
 #include <stdbool.h>
 
-// prototypes
-void task_0(int argc, char *argv[]);
-void task_1(int argc, char *argv[]);
-int task_2(int argc, char *argv[]);
-int *find_int(int *arr, int arr_len, int num);
-
 #define TASK 3
+
+// prototypes
+#if TASK == 3
+int *find_int(int *arr, int arr_len, int num);
+#endif
 
 #if TASK == 1
 int main(int argc, char *argv[])
-{
-    int task = TASK;
-    if (task == 1)
-    {
-        task_0(argc, argv);
-    }
-    else if (task == 2)
-    {
-        task_1(argc, argv);
-    }
-    else if (task == 3)
-    {
-        task_2(argc, argv);
-    }
-}
-#elif TASK == 2
-...
-
-int main(int argc, char *argv[])
-{
-    int task = TASK;
-    if (task == 1)
-    {
-        task_0(argc, argv);
-    }
-    else if (task == 2)
-    {
-        task_1(argc, argv);
-    }
-    else if (task == 3)
-    {
-        task_2(argc, argv);
-    }
-}
-
-void task_0(int argc, char *argv[])
 {
     for(int i = 0; i < argc; i++)
     {
         printf("Parameter[%d]: \"%s\"", i, argv[i]);
     }
 }
-
-void task_1(int argc, char *argv[])
+#elif TASK == 2
+int main(int argc, char *argv[])
 {
     if (argc != 4)
     {
@@ -112,9 +75,8 @@ void task_1(int argc, char *argv[])
     fclose(output);
     
 }
-
-
-int task_2(int argc,char *argv[])
+#elif TASK == 3
+int main(int argc,char *argv[])
 {
     // Declare array of numbers
     size_t numbers_len = 7;
@@ -201,3 +163,4 @@ int *find_int(int *arr, int arr_len, int num)
 
     return NULL;
 }
+#endif
